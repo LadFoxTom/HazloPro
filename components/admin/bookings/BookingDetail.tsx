@@ -5,6 +5,7 @@ import { format } from "date-fns"
 import StatusBadge from "../StatusBadge"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { Decimal } from "@prisma/client/runtime/library"
 
 interface Booking {
   id: string
@@ -26,7 +27,7 @@ interface Booking {
   paymentStatus: string
   paidAt?: Date | null
   createdAt: Date
-  workshop: { title: string; price: number; location: string }
+  workshop: { title: string; price: Decimal; location: string }
   workshopDate: { date: Date }
 }
 

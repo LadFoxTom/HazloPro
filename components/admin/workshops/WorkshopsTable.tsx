@@ -7,6 +7,7 @@ import StatusBadge from "../StatusBadge"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
+import { Decimal } from "@prisma/client/runtime/library"
 
 interface Workshop {
   id: string
@@ -14,7 +15,7 @@ interface Workshop {
   title: string
   category: string
   location: string
-  price: number
+  price: Decimal
   isActive: boolean
   imageUrl: string
   dates: Array<{ id: string; date: Date }>
