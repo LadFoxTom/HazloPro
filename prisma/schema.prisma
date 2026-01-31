@@ -1,0 +1,222 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Workshop {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  
+  // Spanish content
+  title       String
+  description String
+  fullDescription String @db.Text
+  
+  // English content
+  titleEn     String
+  descriptionEn String
+  fullDescriptionEn String @db.Text
+  
+  // Details
+  price       Decimal  @db.Decimal(10, 2)
+  lessons     Int
+  duration    String   // e.g., "18 horas"
+  durationEn  String   // e.g., "18 hours"
+  level       Level
+  category    Category
+  location    String
+  imageUrl    String
+  
+  // Flags
+  isPopular   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  
+  // Relations
+  dates       WorkshopDate[]
+  bookings    Booking[]
+  instructors WorkshopInstructor[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkshopDate {
+  id          String   @id @default(cuid())
+  workshopId  String
+  workshop    Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  
+  date        DateTime
+  maxSpots    Int      @default(10)
+  bookedSpots Int      @default(0)
+  instructorId String?
+  instructor  Instructor? @relation(fields: [instructorId], references: [id])
+  
+  bookings    Booking[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([workshopId, date])
+}
+
+model Booking {
+  id              String   @id @default(cuid())
+  bookingNumber   String   @unique @default(cuid())
+  
+  // Workshop info
+  workshopId      String
+  workshop        Workshop @relation(fields: [workshopId], references: [id])
+  workshopDateId  String
+  workshopDate    WorkshopDate @relation(fields: [workshopDateId], references: [id])
+  
+  // Personal info
+  firstName       String
+  lastName        String
+  email           String
+  phone           String
+  birthdate       DateTime
+  
+  // Address
+  street          String
+  city            String
+  postalCode      String
+  
+  // Company info (optional)
+  isCompany       Boolean  @default(false)
+  companyName     String?
+  companyCif      String?
+  companyAddress  String?
+  
+  // Additional
+  comments        String?  @db.Text
+  
+  // Status
+  status          BookingStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  
+  // Payment
+  paymentIntentId String?
+  paidAt          DateTime?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([email])
+  @@index([workshopId])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum Level {
+  APRENDE     // Learn - Beginners
+  CONSTRUYE   // Build - Intermediate
+  DOMINA      // Master - Advanced
+  TODOS       // All levels
+}
+
+enum Category {
+  FONTANERIA    // Plumbing
+  ELECTRICIDAD  // Electrical
+  ALICATADO     // Tiling
+  CARPINTERIA   // Carpentry
+  PINTURA       // Painting
+  ESTUCADO      // Plastering
+  ALBANILERIA   // Masonry
+  BRICOLAJE     // DIY
+  SOLDADURA     // Welding
+  SUELOS        // Flooring
+  CLIMATIZACION // HVAC
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         AdminRole @default(EDITOR)
+  isActive     Boolean   @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  auditLogs    AuditLog[]
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
+  action      String   // CREATE, UPDATE, DELETE
+  entity      String   // Workshop, WorkshopDate, Booking, etc.
+  entityId    String
+  changes     Json?    // Store before/after values
+  createdAt   DateTime @default(now())
+  
+  @@index([adminUserId])
+  @@index([entity, entityId])
+}
+
+enum AdminRole {
+  SUPER_ADMIN  // Full access, can manage other admins
+  ADMIN        // Full content access
+  EDITOR       // Can edit content, cannot delete
+  VIEWER       // Read-only access
+}
+
+model Instructor {
+  id          String   @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String   @unique
+  phone       String?
+  bio         String?  @db.Text
+  bioEn       String?  @db.Text
+  specialties String[] // Array of categories they specialize in
+  isActive    Boolean  @default(true)
+  
+  // Relations
+  workshopDates WorkshopDate[]
+  workshops    WorkshopInstructor[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkshopInstructor {
+  id           String   @id @default(cuid())
+  workshopId   String
+  workshop     Workshop @relation(fields: [workshopId], references: [id], onDelete: Cascade)
+  instructorId String
+  instructor   Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  
+  createdAt    DateTime @default(now())
+  
+  @@unique([workshopId, instructorId])
+}
