@@ -35,7 +35,6 @@ export default function WorkshopForm({ initialData, workshopId }: WorkshopFormPr
           lessons: initialData.lessons,
           duration: initialData.duration,
           durationEn: initialData.durationEn,
-          maxParticipants: initialData.maxParticipants || 10,
           imageUrl: initialData.imageUrl,
           isActive: initialData.isActive,
           isPopular: initialData.isPopular,
@@ -43,7 +42,6 @@ export default function WorkshopForm({ initialData, workshopId }: WorkshopFormPr
       : {
           isActive: true,
           isPopular: false,
-          maxParticipants: 10,
           level: "APRENDE",
         },
   })
@@ -292,15 +290,6 @@ export default function WorkshopForm({ initialData, workshopId }: WorkshopFormPr
             <input
               {...form.register("durationEn")}
               placeholder="e.g., 18 hours"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Max Participants *</label>
-            <input
-              type="number"
-              {...form.register("maxParticipants", { valueAsNumber: true })}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
             />
           </div>

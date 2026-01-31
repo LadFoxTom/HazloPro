@@ -65,7 +65,6 @@ export async function PUT(
         ...data,
         price: data.price ? data.price : undefined,
         lessons: data.lessons ? data.lessons : undefined,
-        maxParticipants: data.maxParticipants ? data.maxParticipants : undefined,
       },
     })
 

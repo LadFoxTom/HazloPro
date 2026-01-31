@@ -21,7 +21,6 @@ export const workshopSchema = z.object({
   lessons: z.number().int().min(1).max(20),
   duration: z.string().min(2),
   durationEn: z.string().min(2),
-  maxParticipants: z.number().int().min(1).max(20).default(10),
   imageUrl: z.string().url("Must be a valid URL"),
   isActive: z.boolean().default(true),
   isPopular: z.boolean().default(false),

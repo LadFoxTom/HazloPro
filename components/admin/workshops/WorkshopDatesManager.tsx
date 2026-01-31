@@ -17,7 +17,6 @@ interface WorkshopDate {
 interface Workshop {
   id: string
   title: string
-  maxParticipants?: number
   dates: WorkshopDate[]
 }
 
@@ -30,7 +29,7 @@ export default function WorkshopDatesManager({ workshop }: WorkshopDatesManagerP
   const [isAdding, setIsAdding] = useState(false)
   const [newDate, setNewDate] = useState("")
   const [newTime, setNewTime] = useState("09:00")
-  const [newMaxSpots, setNewMaxSpots] = useState(workshop.maxParticipants || 10)
+  const [newMaxSpots, setNewMaxSpots] = useState(10)
 
   const handleAddDate = async () => {
     if (!newDate || !newTime) {
