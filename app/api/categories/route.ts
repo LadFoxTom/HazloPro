@@ -16,7 +16,8 @@ export async function GET() {
 
     const categories = workshops.map((w) => w.category)
 
-    return NextResponse.json({ categories })
+    // Return array directly (not wrapped in object)
+    return NextResponse.json(categories)
   } catch (error: any) {
     console.error("Error fetching categories:", error)
     return NextResponse.json(

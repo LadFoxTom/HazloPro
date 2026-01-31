@@ -53,7 +53,8 @@ export async function GET() {
       price: Number(workshop.price),
     }))
 
-    return NextResponse.json({ workshops: workshopsWithNumbers })
+    // Return array directly (not wrapped in object)
+    return NextResponse.json(workshopsWithNumbers)
   } catch (error: any) {
     console.error("Error fetching workshops:", error)
     return NextResponse.json(
