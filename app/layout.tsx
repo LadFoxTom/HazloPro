@@ -6,8 +6,8 @@ import { Toaster } from 'sonner'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'HazloPro - Admin Dashboard',
-  description: 'Admin dashboard for HazloPro workshop management',
+  title: 'HazloPro - Talleres Profesionales de Bricolaje',
+  description: 'Talleres profesionales de bricolaje y construcción. Aprende fontanería, electricidad, carpintería y más con instructores expertos.',
 }
 
 export default function RootLayout({
