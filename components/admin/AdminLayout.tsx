@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
 import { 
@@ -16,7 +16,7 @@ import {
   Menu,
   X
 } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -31,7 +31,6 @@ const navigation = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const router = useRouter()
   const { data: session, status } = useSession()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -40,14 +39,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>
   }
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (status === "unauthenticated" || (!session && status !== "loading")) {
-      router.push("/admin/login")
-    }
-  }, [status, session, router])
-
   // Show loading state while checking session
+  // Note: Middleware handles redirects, so we just show loading here
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -56,11 +49,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     )
   }
 
-  // Don't render menu if not authenticated
+  // If not authenticated, middleware should have redirected
+  // But show loading just in case
   if (status === "unauthenticated" || !session) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Redirecting to login...</div>
+        <div className="text-gray-500">Loading...</div>
       </div>
     )
   }
