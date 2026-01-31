@@ -49,7 +49,7 @@ export default function LoginPage() {
             <div className="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
               <Wrench className="w-7 h-7 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">TallerPro Admin</span>
+            <span className="text-2xl font-bold text-gray-900">HazloPro Admin</span>
           </div>
 
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Sign in to your account</h1>
