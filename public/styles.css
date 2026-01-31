@@ -398,6 +398,7 @@ ul {
     overflow: hidden;
     flex: 1;
     min-height: 0;
+    max-height: 500px;
     display: flex;
     align-items: stretch;
 }
@@ -561,6 +562,7 @@ ul {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 .workshop-card-title {
@@ -1315,6 +1317,7 @@ ul {
         padding: 0;
         width: 100%;
         max-width: 100%;
+        max-height: 450px;
         box-sizing: border-box;
         overflow: hidden;
     }
