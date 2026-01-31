@@ -29,12 +29,17 @@ export default async function InstructorSchedulePage({ params }: { params: { id:
             select: {
               id: true,
               title: true,
+              category: true,
               location: true,
             },
           },
-          _count: {
+          bookings: {
             select: {
-              bookings: true,
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              status: true,
             },
           },
         },
@@ -46,6 +51,7 @@ export default async function InstructorSchedulePage({ params }: { params: { id:
             select: {
               id: true,
               title: true,
+              category: true,
             },
           },
         },
