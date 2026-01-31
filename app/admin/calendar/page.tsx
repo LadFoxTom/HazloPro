@@ -31,18 +31,25 @@ export default async function CalendarPage() {
         select: {
           id: true,
           title: true,
+          category: true,
           location: true,
         },
       },
       instructor: {
         select: {
           id: true,
-          name: true,
+          firstName: true,
+          lastName: true,
         },
       },
-      _count: {
+      bookings: {
         select: {
-          bookings: true,
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
+          status: true,
         },
       },
     },
