@@ -1,0 +1,13 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f0f4f8"/>
+  <g transform="translate(200, 150)">
+    <path d="M-30 -15 L-10 -15 L-10 -35 L30 0 L-10 35 L-10 15 L-30 15 Z" 
+          fill="#cbd5e0" 
+          stroke="#a0aec0" 
+          stroke-width="2"/>
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#cbd5e0" stroke-width="3"/>
+  </g>
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#718096">
+    Workshop Category
+  </text>
+</svg>

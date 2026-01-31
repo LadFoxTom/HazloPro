@@ -263,6 +263,31 @@ ul {
     display: flex;
 }
 
+.mobile-language-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.mobile-language-selector .globe-icon {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+}
+
+.mobile-language-selector .language-select {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-surface);
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--color-text-main);
+}
+
 /* ============================================
    HERO SECTION
    ============================================ */

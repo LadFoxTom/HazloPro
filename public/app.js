@@ -466,6 +466,33 @@ const API_BASE_URL = window.location.origin.includes('localhost')
   : '/api';
 
 // ============================================
+// COUNTRY CODES FOR PHONE INPUT
+// ============================================
+const countryCodes = [
+  { code: '+34', country: 'ES', flag: '🇪🇸', name: 'España' },
+  { code: '+31', country: 'NL', flag: '🇳🇱', name: 'Nederland' },
+  { code: '+44', country: 'GB', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: '+33', country: 'FR', flag: '🇫🇷', name: 'France' },
+  { code: '+49', country: 'DE', flag: '🇩🇪', name: 'Deutschland' },
+  { code: '+32', country: 'BE', flag: '🇧🇪', name: 'België' },
+  { code: '+351', country: 'PT', flag: '🇵🇹', name: 'Portugal' },
+  { code: '+39', country: 'IT', flag: '🇮🇹', name: 'Italia' },
+  { code: '+41', country: 'CH', flag: '🇨🇭', name: 'Schweiz' },
+  { code: '+43', country: 'AT', flag: '🇦🇹', name: 'Österreich' },
+  { code: '+45', country: 'DK', flag: '🇩🇰', name: 'Danmark' },
+  { code: '+46', country: 'SE', flag: '🇸🇪', name: 'Sverige' },
+  { code: '+47', country: 'NO', flag: '🇳🇴', name: 'Norge' },
+  { code: '+48', country: 'PL', flag: '🇵🇱', name: 'Polska' },
+  { code: '+1', country: 'US', flag: '🇺🇸', name: 'USA/Canada' },
+];
+
+function renderCountryCodeOptions(selectedCode = '+34') {
+    return countryCodes.map(c => 
+        `<option value="${c.code}" ${c.code === selectedCode ? 'selected' : ''}>${c.flag} ${c.code}</option>`
+    ).join('');
+}
+
+// ============================================
 // GLOBAL STATE
 // ============================================
 let currentLang = 'es';
@@ -642,7 +669,12 @@ async function changeLanguage(lang) {
     
     currentLang = lang;
     document.documentElement.lang = lang;
-    document.getElementById('languageSelect').value = lang;
+    
+    // Sync both language selectors (desktop and mobile)
+    const desktopSelect = document.getElementById('languageSelect');
+    const mobileSelect = document.getElementById('mobileLanguageSelect');
+    if (desktopSelect) desktopSelect.value = lang;
+    if (mobileSelect) mobileSelect.value = lang;
     
     // Update all translatable elements without re-fetching data
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -2210,7 +2242,12 @@ function renderSignupPage() {
                 
                 <div>
                     <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">${t.signup.phone}</label>
-                    <input type="tel" name="phone" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                    <div style="display: flex;">
+                        <select name="phoneCountryCode" style="padding: 0.75rem; border: 1px solid var(--color-border); border-right: none; border-radius: var(--radius-md) 0 0 var(--radius-md); background: var(--color-bg-surface); min-width: 100px; font-size: 0.95rem;">
+                            ${renderCountryCodeOptions('+34')}
+                        </select>
+                        <input type="tel" name="phone" placeholder="612 345 678" style="flex: 1; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+                    </div>
                 </div>
                 
                 <div>
@@ -2808,7 +2845,12 @@ function renderVacanciesPage() {
                     </div>
                     <div>
                         <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--color-text-main);">${t.cvForm.phone}</label>
-                        <input type="tel" name="phone" style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: 1rem;">
+                        <div style="display: flex;">
+                            <select name="phoneCountryCode" style="padding: 0.75rem; border: 1px solid var(--color-border); border-right: none; border-radius: var(--radius-md) 0 0 var(--radius-md); background: var(--color-bg-surface); min-width: 100px; font-size: 0.95rem;">
+                                ${renderCountryCodeOptions('+34')}
+                            </select>
+                            <input type="tel" name="phone" placeholder="612 345 678" style="flex: 1; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: 1rem;">
+                        </div>
                     </div>
                     <div>
                         <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--color-text-main);">${t.cvForm.position}</label>
@@ -2880,6 +2922,14 @@ async function submitCVForm(event) {
     }
     
     try {
+        // Combine country code with phone number
+        const phoneCountryCode = formData.get('phoneCountryCode') || '+34';
+        const phoneNumber = formData.get('phone') || '';
+        if (phoneNumber) {
+            formData.set('phone', `${phoneCountryCode} ${phoneNumber}`);
+        }
+        formData.delete('phoneCountryCode');
+        
         const response = await fetch(`${API_BASE_URL}/vacancies/cv`, {
             method: 'POST',
             body: formData,
@@ -2949,6 +2999,11 @@ async function submitSignup(event) {
     }
     
     try {
+        // Combine country code with phone number
+        const phoneCountryCode = formData.get('phoneCountryCode') || '+34';
+        const phoneNumber = formData.get('phone') || '';
+        const fullPhone = phoneNumber ? `${phoneCountryCode} ${phoneNumber}` : '';
+        
         const bookingData = {
             workshopId: selectedWorkshop.id,
             workshopDateId: selectedDate.id,
@@ -2956,7 +3011,7 @@ async function submitSignup(event) {
             lastName: formData.get('lastName'),
             email: email,
             emailConfirm: emailConfirm,
-            phone: formData.get('phone'),
+            phone: fullPhone,
             birthdate: formData.get('birthdate'),
             street: formData.get('street'),
             city: formData.get('city'),
