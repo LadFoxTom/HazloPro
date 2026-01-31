@@ -1,8 +1,8 @@
-# HazloPro - Quick Start
+# HazloPro - Vercel Deployment Guide
 
 ## 🌐 Live URLs
 
-- **Frontend**: https://hazlopro-dev.vercel.app
+- **Frontend**: https://hazlopro-dev.vercel.app/index.html
 - **Admin Portal**: https://hazlopro-dev.vercel.app/admin
 
 ## 🔐 Admin Login Credentials
@@ -14,55 +14,59 @@ Wachtwoord: Admin123!
 
 ## 📱 Wat werkt nu
 
-### Frontend (/)
-- ✅ Homepage met hero section
-- ✅ Features sectie
-- ✅ "Coming Soon" voor workshops
-- ✅ Footer met contactinformatie
-- ✅ Link naar admin portal
+### Frontend (/index.html)
+- ✅ Originele HazloPro website (volledig werkend)
+- ✅ Single-page application met routing
+- ✅ Meertalig (Spaans/Engels)
+- ✅ Workshops overzicht met filters
+- ✅ Workshop detail pagina's
+- ✅ Inschrijfformulier
+- ✅ Over Ons pagina
+- ✅ Vacatures pagina
+- ✅ Contact formulier
+- ✅ Responsive design
 
 ### Admin Portal (/admin)
 - ✅ Login pagina
 - ✅ Dashboard met statistieken
-- ✅ Workshops beheer
+- ✅ Workshops beheer (CRUD)
 - ✅ Bookings overzicht
 - ✅ Calendar view
 - ✅ Instructors beheer
 - ✅ Contacts beheer
 - ✅ Users management
-- ✅ Settings
+- ✅ Settings pagina
 
-## 🚀 Volgende Stappen
+## 🔧 Hoe het werkt
 
-1. **Test de admin portal**
-   - Log in met bovenstaande credentials
-   - Maak test workshops aan
-   - Voeg instructors toe
-   - Test de calendar view
+De applicatie combineert:
+1. **Static Frontend**: Originele HTML/CSS/JS website in `public/` folder
+2. **Next.js Admin**: Server-side rendered admin portal in `app/admin/`
+3. **API Routes**: Backend API's voor admin functionaliteit in `app/api/`
 
-2. **Database setup**
-   - Database draait op Neon.tech
-   - Environment variabelen zijn ingesteld in Vercel
-   - Seed data kan worden toegevoegd via admin portal
+De root `/` redirect naar `/index.html` waar de originele website staat.
 
-3. **Frontend workshops pagina**
-   - Momenteel toont homepage "Coming Soon"
-   - Workshops worden dynamisch geladen uit database
-   - Kan later worden uitgebreid met volledige workshop catalogus
-
-## 🔧 Development
+## 🚀 Lokaal Testen
 
 ```bash
-# Local development
+# Start development server
 npm run dev
 
-# Access locally
-Frontend: http://localhost:3000
+# URLs:
+Frontend: http://localhost:3000/index.html
 Admin: http://localhost:3000/admin
 ```
 
-## 📝 Notities
+## 🐛 Troubleshooting
 
-- Vercel kan oude cached versies tonen - hard refresh (Ctrl+Shift+R) als je "TallerPro" ziet
-- Alle admin pagina's zijn nu "HazloPro" gebranded
-- Frontend is volledig responsive
+### Zie je nog "TallerPro"?
+- Dit is een cache probleem
+- Doe een hard refresh: `Ctrl + Shift + R` (Windows) of `Cmd + Shift + R` (Mac)
+
+### Frontend niet zichtbaar?
+- Ga naar `/index.html` niet naar `/`
+- De root `/` redirect naar `/index.html`
+
+### Admin login werkt niet?
+- Email: `admin@hazlopro.es`
+- Wachtwoord: `Admin123!` (let op hoofdletters en uitroepteken!)
