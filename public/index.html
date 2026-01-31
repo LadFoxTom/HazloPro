@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HazloPro - Aprende un oficio con tus propias manos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-container">
+            <div class="logo" onclick="navigateTo('home')">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                    </svg>
+                </div>
+                <span class="logo-text">HazloPro</span>
+            </div>
+            
+            <nav class="nav-desktop">
+                <a href="#" class="nav-link active" data-page="workshops" onclick="event.preventDefault(); navigateTo('workshops'); return false;" data-i18n="nav.workshops">Talleres</a>
+                <a href="#" class="nav-link" data-page="about" onclick="event.preventDefault(); navigateTo('about'); return false;" data-i18n="nav.about">Sobre Nosotros</a>
+                <a href="#" class="nav-link" data-page="vacancies" onclick="event.preventDefault(); navigateTo('vacancies'); return false;" data-i18n="nav.vacancies">Trabaja con Nosotros</a>
+                <a href="#" class="nav-link" data-page="contact" onclick="event.preventDefault(); navigateTo('contact'); return false;" data-i18n="nav.contact">Contacto</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="language-selector-container">
+                    <svg class="globe-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    <select id="languageSelect" onchange="changeLanguage(this.value)" class="language-select">
+                        <option value="es">ES</option>
+                        <option value="en">EN</option>
+                    </select>
+                </div>
+                <button class="btn btn-dark" onclick="navigateTo('contact')" data-i18n="forCompanies">Para Empresas</button>
+            </div>
+            
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <nav class="mobile-menu" id="mobileMenu">
+            <a href="#" onclick="event.preventDefault(); navigateTo('workshops'); toggleMobileMenu(); return false;" data-i18n="nav.workshops">Talleres</a>
+            <a href="#" onclick="event.preventDefault(); navigateTo('about'); toggleMobileMenu(); return false;" data-i18n="nav.about">Sobre Nosotros</a>
+            <a href="#" onclick="event.preventDefault(); navigateTo('vacancies'); toggleMobileMenu(); return false;" data-i18n="nav.vacancies">Trabaja con Nosotros</a>
+            <a href="#" onclick="event.preventDefault(); navigateTo('contact'); toggleMobileMenu(); return false;" data-i18n="nav.contact">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Page -->
+        <div id="page-home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-container">
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="hero.title">Aprende un oficio con tus propias manos</h1>
+                        <p class="hero-subtitle" data-i18n="hero.subtitle">Cursos prácticos de bricolaje y construcción impartidos por profesionales con años de experiencia</p>
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('workshops')" data-i18n="hero.cta">Ver todos los cursos</button>
+                        
+                        <div class="hero-image">
+                            <img src="img/tekton-YhKP9j4-5FQ-unsplash.jpg" alt="Workshop" loading="eager" decoding="async">
+                        </div>
+                    </div>
+                    
+                    <div class="hero-popular">
+                        <h2 class="popular-title">
+                            <span class="star">⭐</span>
+                            <span data-i18n="popular">Más Populares</span>
+                        </h2>
+                        <div class="popular-slider-container">
+                            <div class="popular-slider" id="popularSlider">
+                                <div class="popular-slider-track" id="popularSliderTrack">
+                                    <!-- Popular workshops will be inserted here -->
+                                </div>
+                            </div>
+                            <div class="slider-dots" id="popularSliderDots">
+                                <!-- Dots will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Categories Section -->
+            <section class="categories">
+                <div class="container">
+                    <h2 class="section-title" data-i18n="categories.title">Categorías</h2>
+                    <div class="categories-slider-container">
+                        <button class="categories-slider-nav-btn categories-slider-prev" id="categoriesSliderPrev" aria-label="Previous">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <div class="categories-slider" id="categoriesSlider">
+                            <div class="categories-slider-track" id="categoriesSliderTrack">
+                                <!-- Categories will be inserted here -->
+                            </div>
+                        </div>
+                        <button class="categories-slider-nav-btn categories-slider-next" id="categoriesSliderNext" aria-label="Next">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Other Courses Section -->
+            <section class="other-courses">
+                <div class="container">
+                    <h2 class="section-title" data-i18n="otherCourses">Otros Cursos</h2>
+                    <div class="workshops-grid" id="otherCoursesGrid">
+                        <!-- Other courses will be inserted here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Workshops Page -->
+        <div id="page-workshops" class="page">
+            <div class="workshops-page">
+                <div class="filters-sidebar" id="filtersSidebar">
+                    <h3 data-i18n="filters.title">Filtros</h3>
+                    <!-- Filters will be inserted here -->
+                </div>
+                <div class="workshops-content">
+                    <div class="workshops-content-header">
+                        <h1 data-i18n="nav.workshops">Talleres</h1>
+                        <p data-i18n="workshopsSubtitle">Encuentra el curso perfecto para ti</p>
+                    </div>
+                    <div class="workshops-grid" id="workshopsGrid">
+                        <!-- Workshops will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Page -->
+        <div id="page-course" class="page">
+            <!-- Course page will be rendered here -->
+        </div>
+        
+        <!-- Signup Page -->
+        <div id="page-signup" class="page">
+            <!-- Signup page will be rendered here -->
+        </div>
+        
+        <!-- Confirmation Page -->
+        <div id="page-confirmation" class="page">
+            <!-- Confirmation page will be rendered here -->
+        </div>
+        
+        <!-- About Page -->
+        <div id="page-about" class="page">
+            <!-- About page will be rendered here -->
+        </div>
+        
+        <!-- Contact Page -->
+        <div id="page-contact" class="page">
+            <!-- Contact page will be rendered here -->
+        </div>
+        
+        <!-- Vacancies/Careers Page -->
+        <div id="page-vacancies" class="page">
+            <!-- Vacancies page will be rendered here -->
+        </div>
+    </main>
+
+    <!-- Sticky CTA Bar -->
+    <div class="sticky-cta-bar" id="stickyCta">
+        <div class="sticky-cta-container">
+            <div class="sticky-cta-text">
+                <span class="sticky-cta-title" data-i18n="stickyCta.title">¿Listo para empezar?</span>
+                <span class="sticky-cta-subtitle" data-i18n="stickyCta.subtitle">Explora nuestros 30+ cursos prácticos</span>
+            </div>
+            <button class="btn btn-primary" onclick="navigateTo('workshops')" data-i18n="hero.cta">Ver todos los cursos</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                            </svg>
+                        </div>
+                        <span class="logo-text">HazloPro</span>
+                    </div>
+                    <p class="footer-description" data-i18n="footer.description">Aprende oficios prácticos con profesionales experimentados. Cursos de fontanería, electricidad, carpintería y más.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 data-i18n="footer.quickLinks">Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('workshops'); return false;" data-i18n="nav.workshops">Talleres</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('about'); return false;" data-i18n="nav.about">Sobre Nosotros</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('vacancies'); return false;" data-i18n="nav.vacancies">Trabaja con Nosotros</a></li>
+                        <li><a href="#" onclick="event.preventDefault(); navigateTo('contact'); return false;" data-i18n="nav.contact">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4 data-i18n="footer.contact">Contacto</h4>
+                    <ul>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Madrid, España</span>
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            <span>+34 900 123 456</span>
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>info@tallerbrico.es</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p data-i18n="footer.rights">Todos los derechos reservados.</p>
+                <div class="footer-legal">
+                    <a href="#" data-i18n="footer.privacy">Política de Privacidad</a>
+                    <a href="#" data-i18n="footer.terms">Términos y Condiciones</a>
+                    <a href="#" data-i18n="footer.cookies">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
