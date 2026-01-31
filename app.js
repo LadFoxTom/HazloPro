@@ -521,7 +521,7 @@ const cache = {
     workshopsTimestamp: null,
     categories: null,
     categoriesTimestamp: null,
-    CACHE_DURATION: 5 * 60 * 1000 // 5 minutes
+    CACHE_DURATION: 10 * 1000 // 10 seconds - short for development
 };
 
 function isCacheValid(timestamp) {
