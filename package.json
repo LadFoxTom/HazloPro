@@ -8,6 +8,7 @@
     "dev:api": "node server.js",
     "start": "next start",
     "build": "next build",
+    "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "node scripts/db-push.js",
     "db:seed": "node -r dotenv/config prisma/seed.js dotenv_config_path=.env.local",
