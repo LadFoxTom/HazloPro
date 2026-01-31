@@ -1,8 +1,8 @@
 "use client"
 
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { 
   LayoutDashboard, 
   Wrench, 
@@ -16,7 +16,7 @@ import {
   Menu,
   X
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -31,7 +31,39 @@ const navigation = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { data: session, status } = useSession()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  // Don't show navigation on login page
+  if (pathname === "/admin/login") {
+    return <>{children}</>
+  }
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === "unauthenticated" || (!session && status !== "loading")) {
+      router.push("/admin/login")
+    }
+  }, [status, session, router])
+
+  // Show loading state while checking session
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    )
+  }
+
+  // Don't render menu if not authenticated
+  if (status === "unauthenticated" || !session) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-500">Redirecting to login...</div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -56,7 +88,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
                 <Wrench className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">TallerPro</span>
+              <span className="text-xl font-bold text-gray-900">HazloPro</span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
